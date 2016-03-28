@@ -1,0 +1,4 @@
+---
+- hosts: wp-instance
+  roles:
+    - ansible-wordpress

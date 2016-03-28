@@ -1,0 +1,4 @@
+---
+- hosts: mariadb-server
+  roles:
+    - ansible-mariadb

@@ -1,0 +1,8 @@
+---
+- name: Register system with Red Hat and attach subscriptions
+  redhat_subscription:
+    state: present
+    username: "{{ rhn_user }}"
+    password: "{{ rhn_pass }}"
+    autosubscribe: true
+  when: ansible_distribution == "RedHat"

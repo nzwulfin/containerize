@@ -1,0 +1,52 @@
+---
+- name: Install Packages | yum
+  yum:
+    state: latest
+    pkg: "{{ item }}"
+  with_items:
+    - mariadb-server
+    - MySQL-python
+  when: mariadb_server
+
+- include: configure.yml
+- include: logging.yml
+
+- name: Set up MariaDB dirs in container
+  shell: /usr/bin/mysql_install_db --datadir=/var/lib/mysql --user=mysql
+  when: ansible_virtualization_type == "docker"
+
+- name: Start MariaDB service
+  service:
+    name: mariadb
+    state: started
+  when: ansible_virtualization_type != "docker"
+
+- name: Start MariaDB in container
+  shell: /usr/bin/mysqld_safe --basedir=/usr --user=mysql &
+  when: ansible_virtualization_type == "docker"
+
+- name: Create Database
+  mysql_db:
+    state: present
+    name: "{{ database_name }}"
+    login_host: localhost
+    login_user: root
+    login_password: ''
+  when: ansible_virtualization_type != "docker"
+
+- name: Create Database
+  mysql_db:
+    state: present
+    name: "{{ database_name }}"
+  when: ansible_virtualization_type == "docker"
+
+- name: Create Database User
+  mysql_user:
+    state: present
+    name: "{{ database_username }}"
+    password: "{{ database_password }}"
+    priv: "{{ database_name }}.*:ALL"
+    host: "{{ item }}"
+  with_items:
+    - '%'
+    - localhost

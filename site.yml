@@ -1,0 +1,8 @@
+---
+- name: Install MariaDB and WorkPress
+  hosts: all
+  roles:
+    - ansible-rhtreg
+    
+- include: mariadb.yml
+- include: wordpress.yml

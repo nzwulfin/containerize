@@ -1,0 +1,8 @@
+---
+ansible_ssh_user: admin
+ansible_ssh_pass: redhat
+ansible_become_pass: redhat
+
+database_name: wordpress
+database_username: wordpress
+database_password: wordpress
