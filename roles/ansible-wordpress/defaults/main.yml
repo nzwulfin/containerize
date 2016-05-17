@@ -6,7 +6,7 @@ wp_install_dir: '/var/www/html/wordpress'
 wp_db_name: "{{ database_name }}"
 wp_db_user: "{{ database_username }}"
 wp_db_password: "{{ database_password }}"
-wp_db_host: 'localhost'
+wp_db_host: 'mariadb'
 wp_db_charset: 'utf8'
 wp_db_collate: ''
 wp_table_prefix: 'wp_'
